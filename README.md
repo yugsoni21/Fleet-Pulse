@@ -5,7 +5,10 @@ backpressure-aware ingestion pipeline, evaluates it against a pluggable rule eng
 it, and pushes live updates to a browser dashboard over SignalR — all in a single process,
 with no external infrastructure.
 
-Built with .NET 10, ASP.NET Core Minimal APIs, SignalR, EF Core + SQLite, and xUnit.
+**Stack:** C# 14 on .NET 10 · ASP.NET Core Minimal APIs · SignalR · Entity Framework Core 10 +
+SQLite · xUnit · vanilla JavaScript with Leaflet and Chart.js on the front end.
+
+Roughly 1,600 lines of C# across six projects, plus 34 tests.
 
 ## Architecture
 
@@ -121,4 +124,11 @@ which is backpressure made visible.
   or a highway run.
 - **Enums over the wire as strings.** `JsonStringEnumConverter` is registered on both the SignalR
   protocol and the Minimal API JSON options, so clients switch on `"Speeding"` rather than `0`.
-# Fleet-Pulse
+
+## C# features used
+
+Async streams (`IAsyncEnumerable` / `await foreach`) to drain the channel without polling,
+iterator methods (`yield return`) so a rule allocates nothing when it doesn't fire, `record`
+types for immutable payloads, `required` init-only properties, generic constraints on the
+detach helper, nullable reference types enabled solution-wide, and file-scoped namespaces
+with top-level statements throughout.
