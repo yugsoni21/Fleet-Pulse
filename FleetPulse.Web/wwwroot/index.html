@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FleetPulse — Live Fleet Telemetry</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div class="brand-text">
+        <strong>FleetPulse</strong>
+        <span>Live Fleet Telemetry</span>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <article class="kpi">
+        <span class="kpi-label">Active Devices</span>
+        <span class="kpi-value" id="kpi-devices">—</span>
+      </article>
+      <article class="kpi">
+        <span class="kpi-label">Readings / sec</span>
+        <span class="kpi-value accent" id="kpi-rate">—</span>
+      </article>
+      <article class="kpi">
+        <span class="kpi-label">Total Readings</span>
+        <span class="kpi-value" id="kpi-readings">—</span>
+      </article>
+      <article class="kpi">
+        <span class="kpi-label">Alerts</span>
+        <span class="kpi-value warn" id="kpi-alerts">—</span>
+      </article>
+      <article class="kpi" title="Readings buffered in the bounded channel. Climbs only when the consumer can't keep up.">
+        <span class="kpi-label">Queue Depth</span>
+        <span class="kpi-value" id="kpi-queue">—</span>
+        <div class="queue-bar"><div class="queue-fill" id="queue-fill"></div></div>
+      </article>
+    </div>
+
+    <div class="status" id="connection-status">
+      <span class="status-dot"></span>
+      <span id="connection-text">Connecting</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="map-panel">
+      <div id="map"></div>
+
+      <div class="map-legend">
+        <span><i class="swatch moving"></i>Moving</span>
+        <span><i class="swatch idle"></i>Idle</span>
+        <span><i class="swatch speeding"></i>Speeding</span>
+        <span><i class="swatch zone"></i>Geofence</span>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="card">
+        <header class="card-head">
+          <h2>Ingestion Throughput</h2>
+          <span class="card-note">readings / sec</span>
+        </header>
+        <div class="chart-wrap sparkline"><canvas id="throughputChart"></canvas></div>
+      </section>
+
+      <section class="card">
+        <header class="card-head">
+          <h2>Alerts by Type</h2>
+          <span class="card-note" id="alert-total">0 total</span>
+        </header>
+        <div class="chart-wrap doughnut"><canvas id="alertChart"></canvas></div>
+      </section>
+
+      <section class="card feed-card">
+        <header class="card-head">
+          <h2>Live Alert Feed</h2>
+          <span class="card-note" id="feed-count">0</span>
+        </header>
+        <ul class="alert-feed" id="alert-feed">
+          <li class="feed-empty">Waiting for telemetry…</li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

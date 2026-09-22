@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FleetPulse.Core\FleetPulse.Core.csproj" />
+    <ProjectReference Include="..\FleetPulse.Data\FleetPulse.Data.csproj" />
+    <ProjectReference Include="..\FleetPulse.Simulator\FleetPulse.Simulator.csproj" />
+    <ProjectReference Include="..\FleetPulse.Ingestion\FleetPulse.Ingestion.csproj" />
+  </ItemGroup>
+
+</Project>
